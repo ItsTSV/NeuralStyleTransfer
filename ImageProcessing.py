@@ -51,7 +51,7 @@ class ImageProcessing:
         The deprocessing pipeline consist of multiple steps: cloning and detaching the tensor -> removing the additional
         dimension, which was required by the VGG19 neural network -> rearranging the dimensions of tensor (channels,
         height, width) to (height, width, channels) -> changing the data type and value frange from 0-1 to 0-255 ->
-        building the image from array, resizing it to given size.
+        building the image from np array, resizing it to given size.
 
         Args:
             tensor: torch.tensor, output of the neural network.
@@ -67,7 +67,6 @@ class ImageProcessing:
 
         image = Image.fromarray(image)
         image = image.resize(size)
-        print(type(image))
         return image
 
     def preview_image(self, tensor):
@@ -80,4 +79,3 @@ class ImageProcessing:
         plt.imshow(image)
         plt.axis("off")
         plt.show()
-
