@@ -13,7 +13,7 @@ class NeuralStyleTransfer:
         style_tensor,
         device,
         content_weight=1,
-        style_weight=1000000,
+        style_weight=1e6,
         num_steps=101,
     ):
         """Initialize the NST model.
@@ -33,13 +33,15 @@ class NeuralStyleTransfer:
         self.num_steps = num_steps
 
         self.extractor = Vgg19FeatureExtractor(device)
+        self.extractor.eval()
 
         # Extract features for content and style images
         self.content_features, _ = self.extractor(content_tensor)
         _, self.style_features = self.extractor(style_tensor)
 
         # Initialize generated image as a copy of content image
-        self.generated_image = content_tensor.clone().requires_grad_(True)
+        self.generated_image = content_tensor.clone()
+        self.generated_image.requires_grad_(True)
         self.optimizer = optim.LBFGS([self.generated_image])
 
     def compute_losses(self):
@@ -58,17 +60,24 @@ class NeuralStyleTransfer:
 
     def train(self):
         """Optimize the generated image to match the content and style targets."""
-
-        def closure():
-            self.optimizer.zero_grad()
-            loss = self.compute_losses()
-            loss.backward()
-            return loss
-
         for step in range(self.num_steps):
-            loss = self.optimizer.step(closure)
 
-            if step % 50 == 0:
-                print(f"Step {step}/{self.num_steps}, Loss: {loss.item():.4f}")
+            def closure():
+                with torch.no_grad():
+                    self.generated_image.clamp_(0, 1)
+
+                self.optimizer.zero_grad()
+                loss = self.compute_losses()
+                loss.backward()
+
+                if step % 5 == 0:
+                    print(f"Step {step}/{self.num_steps}, Loss: {loss.item():.4f}")
+
+                return loss
+
+            self.optimizer.step(closure)
+
+        with torch.no_grad():
+            self.generated_image.clamp_(0, 1)
 
         return self.generated_image

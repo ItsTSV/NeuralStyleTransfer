@@ -17,7 +17,7 @@ parser.add_argument(
     "--content", type=str, help="Path to the content image", default="images/fei.jpg"
 )
 parser.add_argument(
-    "--style", type=str, help="Path to the style image", default="images/boat.jpg"
+    "--style", type=str, help="Path to the style image", default="images/starrynight.jpg"
 )
 parser.add_argument(
     "--output", type=str, help="Path to the output image", default="output.jpg"
@@ -27,7 +27,7 @@ parser.add_argument(
     "--img_size",
     type=int,
     help="Size of image the NN will be working with",
-    default=512,
+    default=256,
 )
 args = parser.parse_args()
 

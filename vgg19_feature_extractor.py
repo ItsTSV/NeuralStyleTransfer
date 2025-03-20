@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torchvision.models as models
 
@@ -32,6 +33,10 @@ class Vgg19FeatureExtractor(nn.Module):
         super().__init__()
         self.device = device
 
+        # Set mean and std normalization
+        self.mean = torch.tensor([0.485, 0.456, 0.406]).view(-1, 1, 1).to(self.device)
+        self.std = torch.tensor([0.229, 0.224, 0.225]).view(-1, 1, 1).to(self.device)
+
         # Load the VGG19 neural network -- keep only convolutional part
         vgg19 = models.vgg19(weights=models.VGG19_Weights.DEFAULT).features.eval()
 
@@ -55,6 +60,9 @@ class Vgg19FeatureExtractor(nn.Module):
             content_features: dict, features of the content image, which will be used to calculate the content loss.
             style_features: dict, features of the style image, which will be used to calculate the style loss.
         """
+        # Normalize x
+        x = (x - self.mean) / self.std
+
         content_features = {}
         style_features = {}
 
