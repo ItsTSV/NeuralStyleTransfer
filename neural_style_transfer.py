@@ -1,13 +1,21 @@
 import torch
 import torch.optim as optim
-from Vgg19FeatureExtractor import Vgg19FeatureExtractor
+from vgg19_feature_extractor import Vgg19FeatureExtractor
 from loss_functions import compute_style_loss, compute_content_loss
 
 
 class NeuralStyleTransfer:
     """Class for performing Neural Style Transfer using VGG19."""
 
-    def __init__(self, content_tensor, style_tensor, device, content_weight=1, style_weight=1000000, num_steps=101):
+    def __init__(
+        self,
+        content_tensor,
+        style_tensor,
+        device,
+        content_weight=1,
+        style_weight=1000000,
+        num_steps=101,
+    ):
         """Initialize the NST model.
 
         Args:

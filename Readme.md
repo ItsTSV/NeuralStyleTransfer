@@ -6,8 +6,11 @@ also, there are lots of comments, so it should be pretty clear.
 ## Implementation progress
 - [x] Preprocessing, deprocessing, visualization
 - [x] VGG19 model feature extraction
-- [ ] Content, style loss, gram matrix
-- [ ] Training loop
+- [x] Content, style loss, gram matrix
+- [x] Training loop
+- [ ] Refactoring
+- [ ] Optimizing
+- [ ] Documentation
 - [ ] Testing, tweaking, experimenting
 
 ## Used paintings

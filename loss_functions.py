@@ -21,4 +21,3 @@ def _gram_matrix(tensor):
     features = tensor.view(a * b, c * d)
     gram = torch.mm(features, features.t())
     return gram.div(a * b * c * d)
-

@@ -19,10 +19,12 @@ class ImageProcessing:
         self.device = device
 
         # Set pipeline -- resize both images to same size (w/h must be the same, w and h not!), convert to tensor
-        self.pipeline = transforms.Compose([
-            transforms.Resize(image_size),
-            transforms.ToTensor(),
-        ])
+        self.pipeline = transforms.Compose(
+            [
+                transforms.Resize(image_size),
+                transforms.ToTensor(),
+            ]
+        )
 
         self.content_tensor = self.load_preprocess_image(content_path)
         self.style_tensor = self.load_preprocess_image(style_path)

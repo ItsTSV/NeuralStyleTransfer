@@ -29,7 +29,7 @@ class Vgg19FeatureExtractor(nn.Module):
             device: torch.device, Device on which the neural network will be loaded.
         """
 
-        super(Vgg19FeatureExtractor, self).__init__()
+        super().__init__()
         self.device = device
 
         # Load the VGG19 neural network -- keep only convolutional part
