@@ -12,7 +12,7 @@ also, there are lots of comments, so it should be pretty clear.
 
 ## Used paintings
 Neither the content images or style paintings are in the repository so far, because I want to avoid citation hell as long
-as possible. When I write the paper, I will include the images and their sources. So far, here's the list of the paintings:
+as possible. After I write the paper, I will include the images and their sources. So far, here's the list of the paintings:
 
 - The Starry Night, Vincent van Gogh
 - The Great Wave off Kanagawa, Hokusai

@@ -33,7 +33,7 @@ class Vgg19FeatureExtractor(nn.Module):
         self.device = device
 
         # Load the VGG19 neural network -- keep only convolutional part
-        vgg19 = models.vgg19(weights=models.VGG19_Weights.DEFAULT).features
+        vgg19 = models.vgg19(weights=models.VGG19_Weights.DEFAULT).features.eval()
 
         # Define the layer indexes, from which the features will be extracted
         self.content_layer_index = 21
@@ -41,10 +41,7 @@ class Vgg19FeatureExtractor(nn.Module):
 
         # Define model (vgg network up to the last style layer), transfer it to device
         self.model = vgg19[: max(self.style_layer_indexes) + 1].to(self.device)
-
-        # Freeze model parameters, so the VGG19 network will not be trained
-        for param in vgg19.parameters():
-            param.requires_grad = False
+        self.model.requires_grad_(False)
 
     def forward(self, x):
         """Forward pass through the modified VGG19 neural network.

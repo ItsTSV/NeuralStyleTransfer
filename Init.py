@@ -2,17 +2,17 @@ import torch
 import argparse
 from ImageProcessing import ImageProcessing
 from Vgg19FeatureExtractor import Vgg19FeatureExtractor
+from neural_style_transfer import NeuralStyleTransfer
 
 # Check if CUDA device is present, if not, send a warning
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-torch.set_default_device(device)
 if device == "cpu":
     print("Warning: CUDA GPU is not present! The computations will be performed on CPU.")
 
 # Parse user input
 parser = argparse.ArgumentParser(description="Neural Style Transfer")
 parser.add_argument("--content", type=str, help="Path to the content image", default="images/fei.jpg")
-parser.add_argument("--style", type=str, help="Path to the style image", default="images/starrynight.jpg")
+parser.add_argument("--style", type=str, help="Path to the style image", default="images/boat.jpg")
 parser.add_argument("--output", type=str, help="Path to the output image", default="output.jpg")
 parser.add_argument("--iterations", type=int, help="Number of iterations", default=500)
 parser.add_argument("--img_size", type=int, help="Size of image the NN will be working with", default=512)
@@ -27,3 +27,8 @@ style_img = image_processing.style_tensor
 feature_extractor = Vgg19FeatureExtractor(device)
 content_features, style_features = feature_extractor(content_img)
 
+# Run nst
+nst = NeuralStyleTransfer(content_img, style_img, device)
+generated_img = nst.train()
+output = image_processing.extract_image(generated_img)
+output.show()
