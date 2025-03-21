@@ -1,5 +1,5 @@
 import torch
-from image_processing import ImageProcessing
+from image_processing import load_preprocess_image, assert_dimensions, extract_image
 from vgg19_feature_extractor import Vgg19FeatureExtractor
 from neural_style_transfer import NeuralStyleTransfer
 from arg_handler import handle_args, print_args
@@ -16,9 +16,9 @@ args = handle_args()
 print_args(args)
 
 # Load and preprocess images
-image_processing = ImageProcessing(args.content, args.style, device, args.img_size)
-content_img = image_processing.content_tensor
-style_img = image_processing.style_tensor
+content_img = load_preprocess_image(args.content_path, args.image_size, device)
+style_img = load_preprocess_image(args.style_path, args.image_size, device)
+assert_dimensions(content_img, style_img)
 
 # Load the VGG19 Feature Extractor
 feature_extractor = Vgg19FeatureExtractor(device)
@@ -27,5 +27,8 @@ content_features, style_features = feature_extractor(content_img)
 # Run nst
 nst = NeuralStyleTransfer(content_img, style_img, device)
 generated_img = nst.train()
-output = image_processing.extract_image(generated_img)
+
+# Extract image, save and show it
+output = extract_image(generated_img)
+output.save(args.output_path)
 output.show()

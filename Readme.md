@@ -24,6 +24,7 @@ as possible. After I write the paper, I will include the images and their source
 - The Boat, Pierre August Renoir
 - Port de Peche, Maurice de Vlaminck
 - The Persistence of Memory, Salvador Dali
+- Yellow-Red-Blue, Wassily Kandinsky
 
 ## The results so far
 As a content image, I used this photo of my faculty building, taken from Mapy.cz

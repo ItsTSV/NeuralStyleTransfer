@@ -11,19 +11,19 @@ def handle_args():
 
     # Input/Output arguments
     parser.add_argument(
-        "--content",
+        "--content_path",
         type=str,
         help="Path to the content image",
         default="images/fei.jpg",
     )
     parser.add_argument(
-        "--style",
+        "--style_path",
         type=str,
         help="Path to the style image",
         default="images/starrynight.jpg",
     )
     parser.add_argument(
-        "--output",
+        "--output_path",
         type=str,
         help="Path to save the output image",
         default="results/transfered.jpg",
@@ -37,7 +37,7 @@ def handle_args():
         default=101,
     )
     parser.add_argument(
-        "--img_size",
+        "--image_size",
         type=int,
         help="Size of image the Neural Network will be working with",
         default=256,
