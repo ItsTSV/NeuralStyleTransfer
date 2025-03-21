@@ -1,8 +1,8 @@
-import argparse
 import torch
 from image_processing import ImageProcessing
 from vgg19_feature_extractor import Vgg19FeatureExtractor
 from neural_style_transfer import NeuralStyleTransfer
+from arg_handler import handle_args, print_args
 
 # Check if CUDA device is present, if not, send a warning
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -11,25 +11,9 @@ if device == "cpu":
         "Warning: CUDA GPU is not present! The computations will be performed on CPU."
     )
 
-# Parse user input
-parser = argparse.ArgumentParser(description="Neural Style Transfer")
-parser.add_argument(
-    "--content", type=str, help="Path to the content image", default="images/fei.jpg"
-)
-parser.add_argument(
-    "--style", type=str, help="Path to the style image", default="images/starrynight.jpg"
-)
-parser.add_argument(
-    "--output", type=str, help="Path to the output image", default="output.jpg"
-)
-parser.add_argument("--iterations", type=int, help="Number of iterations", default=500)
-parser.add_argument(
-    "--img_size",
-    type=int,
-    help="Size of image the NN will be working with",
-    default=256,
-)
-args = parser.parse_args()
+# Handle the arguments
+args = handle_args()
+print_args(args)
 
 # Load and preprocess images
 image_processing = ImageProcessing(args.content, args.style, device, args.img_size)
