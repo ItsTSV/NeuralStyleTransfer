@@ -13,19 +13,18 @@ if device == "cpu":
 
 # Handle the arguments
 args = handle_args()
-print_args(args)
 
 # Load and preprocess images
-content_img = load_preprocess_image(args.content_path, args.image_size, device)
-style_img = load_preprocess_image(args.style_path, args.image_size, device)
-assert_dimensions(content_img, style_img)
+content_tensor = load_preprocess_image(args.content_path, args.image_size, device)
+style_tensor = load_preprocess_image(args.style_path, args.image_size, device)
+assert_dimensions(content_tensor, style_tensor)
 
 # Load the VGG19 Feature Extractor
 feature_extractor = Vgg19FeatureExtractor(device)
-content_features, style_features = feature_extractor(content_img)
+content_features, style_features = feature_extractor(content_tensor)
 
 # Run nst
-nst = NeuralStyleTransfer(content_img, style_img, device)
+nst = NeuralStyleTransfer(content_tensor, style_tensor, device, args)
 generated_img = nst.train()
 
 # Extract image, save and show it

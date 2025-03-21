@@ -13,9 +13,8 @@ def load_preprocess_image(path, image_size, device):
         4. Tensor is sent to device (cuda gpu)
 
     Args:
-        path: string, path to the image
+        path: string, path to the image in a standard format (.jpg, .png...)
         image_size: int, size to which the image will be converted
-        device: cuda.device, device to which the tensor will be sent
     """
     image = Image.open(path)
 
@@ -33,7 +32,7 @@ def load_preprocess_image(path, image_size, device):
 
 
 def assert_dimensions(content_tensor, style_tensor):
-    """Assert the shapes of tensors are correct, so the algorithm can run without problems."""
+    """Assert the shapes of tensors are the same, so the algorithm can run without problems."""
     assert content_tensor.shape == style_tensor.shape, "The dimensions are not correct!"
 
 

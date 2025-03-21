@@ -5,32 +5,30 @@ from loss_functions import compute_style_loss, compute_content_loss
 
 
 class NeuralStyleTransfer:
-    """Class for performing Neural Style Transfer using VGG19."""
+    """Class for performing Neural Style Transfer using VGG19.
 
-    def __init__(
-        self,
-        content_tensor,
-        style_tensor,
-        device,
-        content_weight=1,
-        style_weight=1e6,
-        num_steps=101,
-    ):
+    Attributes:
+        device: torch.device, device on which the algorithm will work.
+        content_weight: int, how much the content loss will be weighted.
+        style_weight: int, how much the style loss will be weighted.
+        num_steps: int, the number of iterations NST algorithm performs.
+        extractor: Vgg19FeatureExtractor, will be used to get features from the vgg19 model.
+        content_features: dict, will be used to save the content features given by the extractor.
+        style_features: dict, will be used to save the style features given by the extractor.
+        generated_image: torch.tensor, the image that will be optimized throughout the algorithm.
+        optimizer: torch.optim, the NST algorithm uses LBFGS.
+    """
+
+    def __init__(self, content_tensor, style_tensor, device, args):
         """Initialize the NST model.
 
         Args:
-            content_tensor: torch.tensor, preprocessed content image.
-            style_tensor: torch.tensor, preprocessed style image.
-            device: torch.device, computation device.
-            content_weight: float, weight for content loss.
-            style_weight: float, weight for style loss.
-            num_steps: int, number of optimization steps.
-            lr: float, learning rate for the optimizer.
+            args: argparse.Namespace, object that stores all the user settings
         """
         self.device = device
-        self.content_weight = content_weight
-        self.style_weight = style_weight
-        self.num_steps = num_steps
+        self.content_weight = args.content_weight
+        self.style_weight = args.style_weight
+        self.num_steps = args.iterations
 
         self.extractor = Vgg19FeatureExtractor(device)
         self.extractor.eval()
@@ -45,7 +43,12 @@ class NeuralStyleTransfer:
         self.optimizer = optim.LBFGS([self.generated_image])
 
     def compute_losses(self):
-        """Compute content and style loss for the generated image."""
+        """Compute content and style loss for the generated image.
+
+        First, the generated image is fed into the customized Vgg19 model. From that, the features are gained.
+        These features are then used with features of content and style images to compute the losses. Those
+        computed losses are then weighted, so the algorithm output can be customized.
+        """
         gen_content_features, gen_style_features = self.extractor(self.generated_image)
 
         content_loss = compute_content_loss(
@@ -54,12 +57,20 @@ class NeuralStyleTransfer:
 
         style_loss = compute_style_loss(self.style_features, gen_style_features)
 
-        # Total loss
         total_loss = self.content_weight * content_loss + self.style_weight * style_loss
         return total_loss
 
     def train(self):
-        """Optimize the generated image to match the content and style targets."""
+        """Optimize the generated image to match the content and style targets.
+
+        For given number of iterations, the algorithm performs the NST optimization. In each iteration,
+        the generated image is clamped and its gradients are voided. Then, the loss is calculated and propagated
+        backwards. The optimizer step needs to be in a closure -- LBFGS algorithm requires it, because it performs
+        it multiple times in a single iteration.
+
+        Returns:
+            generated_image: torch.tensor, the transferred image, which needs to be deprocessed to view normally.
+        """
         for step in range(self.num_steps):
 
             def closure():
