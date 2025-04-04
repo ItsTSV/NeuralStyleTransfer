@@ -1,5 +1,5 @@
 import torch
-import torch.optim as optim
+from torch import optim
 from vgg19_feature_extractor import Vgg19FeatureExtractor
 from loss_functions import compute_style_loss, compute_content_loss
 

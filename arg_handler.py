@@ -54,6 +54,12 @@ def handle_args():
         help="How much will the style part of the image be preferred",
         default=1e6,
     )
+    parser.add_argument(
+        "--force_resize",
+        type=bool,
+        help="Forces the style image to be resized to the content image size",
+        default=False,
+    )
 
     # Parse, return
     args = parser.parse_args()
