@@ -4,15 +4,7 @@ from PIL import Image
 
 
 def load_preprocess_images(content_path, style_path, image_size, device, force_resize):
-    """Load and preprocess images, so they can be fed to the neural network.
-
-    The preprocessing pipeline contains these steps:
-        1. Images are resized to a given size
-        2. Images are converted to a tensor, their values are changed to <0, 1> range
-        3. Another dimension is added to the tensors, so their shape is accepted by the neural network
-        4. Tensors are sent to device (cuda gpu)
-    """
-    # Load images
+    """Loads content and style images, force resizes (if selected) and preprocesses them."""
     content_image = Image.open(content_path)
     style_image = Image.open(style_path)
 
@@ -21,6 +13,21 @@ def load_preprocess_images(content_path, style_path, image_size, device, force_r
         print("The style image was forcefully resized -- a deformation may occur!")
         style_image = style_image.resize(content_image.size)
 
+    # Send images to a pipeline, convert them to tensors
+    content_tensor = preprocess_image(content_image, image_size, device)
+    style_tensor = preprocess_image(style_image, image_size, device)
+    return content_tensor, style_tensor
+
+
+def preprocess_image(pil_image, image_size, device):
+    """Preprocesses the image, so it can be fed to the neural network.
+
+    The preprocessing pipeline contains these steps:
+        1. Images are resized to a given size
+        2. Images are converted to a tensor, their values are changed to <0, 1> range
+        3. Another dimension is added to the tensors, so their shape is accepted by the neural network
+        4. Tensors are sent to device (cuda gpu)
+    """
     # Prepare the pipeline, run image through it, convert it to tensor
     pipeline = transforms.Compose(
         [
@@ -29,10 +36,8 @@ def load_preprocess_images(content_path, style_path, image_size, device, force_r
         ]
     )
 
-    # Send images to a pipeline, convert them to tensors
-    content_tensor = pipeline(content_image).unsqueeze(0).to(device)
-    style_tensor = pipeline(style_image).unsqueeze(0).to(device)
-    return content_tensor, style_tensor
+    img_tensor = pipeline(pil_image).unsqueeze(0).to(device)
+    return img_tensor
 
 
 def assert_dimensions(content_tensor, style_tensor):
