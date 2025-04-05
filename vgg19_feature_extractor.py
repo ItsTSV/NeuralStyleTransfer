@@ -48,9 +48,6 @@ class Vgg19FeatureExtractor(nn.Module):
 
         First, the input tensor is normalized. Then, the tensor is passed through the network, but only the
         wanted content and style features are saved.
-
-        Args:
-            x: torch.tensor, tensor that represents the image.
         """
         x = (x - self.mean) / self.std
 

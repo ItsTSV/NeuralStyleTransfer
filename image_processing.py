@@ -11,10 +11,6 @@ def load_preprocess_images(content_path, style_path, image_size, device, force_r
         2. Images are converted to a tensor, their values are changed to <0, 1> range
         3. Another dimension is added to the tensors, so their shape is accepted by the neural network
         4. Tensors are sent to device (cuda gpu)
-
-    Returns:
-        content_tensor: torch.tensor, content image ready to be sent to neural network
-        style_tensor: torch.tensor, style image ready to be sent to neural network
     """
     # Load images
     content_image = Image.open(content_path)
@@ -54,10 +50,6 @@ def extract_image(image_tensor, size=(1920, 1080)):
         4. It is converted to Numpy array, channels are shuffled, so it is in correct format
         5. Its values are converted to range <0, 255>
         6. Finally, an image is created and resized to a given size
-
-     Args:
-         image_tensor: torch.tensor, output of the neural network
-         size: (int, int), dimension to which the image will be resized
     """
     image = image_tensor.clone().detach().cpu().squeeze(0)
 
@@ -70,11 +62,7 @@ def extract_image(image_tensor, size=(1920, 1080)):
 
 
 def preview_image(tensor):
-    """Preview image from tensor.
-
-    Args:
-        tensor: torch.tensor, output of the neural network.
-    """
+    """Preview image from tensor."""
     image = extract_image(tensor)
     plt.imshow(image)
     plt.axis("off")

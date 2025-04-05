@@ -3,12 +3,7 @@ import torch.nn.functional as F
 
 
 def compute_content_loss(content_tensor, generated_tensor):
-    """Computes MSE loss between tensors from content and generated layers.
-
-       Args:
-           content_tensor: torch.tensor, output of vgg19 content layer for content image.
-           generated_tensor: torch.tensor, output of vgg19 content layer for image that is being generated.
-    """
+    """Computes MSE loss between tensors from content and generated layers."""
     content_loss = F.mse_loss(content_tensor, generated_tensor)
     return content_loss
 
