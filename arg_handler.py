@@ -14,19 +14,19 @@ def handle_args():
         "--content_path",
         type=str,
         help="Path to the content image",
-        default="images/fei.jpg",
+        default="images/content/fei.jpg",
     )
     parser.add_argument(
         "--style_path",
         type=str,
         help="Path to the style image",
-        default="images/starrynight.jpg",
+        default="images/style/starrynight.jpg",
     )
     parser.add_argument(
         "--output_path",
         type=str,
         help="Path to save the output image",
-        default="results/transfered.jpg",
+        default="results/transferred.jpg",
     )
 
     # Hyperparameters
