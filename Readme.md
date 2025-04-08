@@ -12,6 +12,9 @@ also, there are lots of comments, so it should be pretty clear.
 - [x] Optimizing
 - [x] Documentation
 - [x] Testing, tweaking, experimenting
+- [ ] Style mashup?
+- [ ] More model backends?
+- [ ] FastNST?
 
 ## Used paintings
 I selected a few paintings from the WikiArt database to use as style images. I made sure the images are public domain,
