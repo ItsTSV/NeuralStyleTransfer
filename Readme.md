@@ -12,7 +12,7 @@ also, there are lots of comments, so it should be pretty clear.
 - [x] Optimizing
 - [x] Documentation
 - [x] Testing, tweaking, experimenting
-- [ ] Style mashup?
+- [x] Style mashup
 - [ ] More model backends?
 - [ ] FastNST?
 
@@ -49,5 +49,18 @@ photo of my hometown square, taken from Wikipedia.
 | ![The Wreck of a Transport Ship](images/other/shipwreck.jpg)                | ![Result](results/square_shipwreck.jpg)   |
 | ![Choppy Sea](images/other/sea.jpg)                                         | ![Result](results/square_sea.jpg)  |
 | ![Ad Parnassum](images/other/parnassum.jpg)                                 | ![Result](results/fei_parnassum.jpg)      |
+
+## Style mashup
+I also implemented an option to combine two styles and transfer them to the content image. This is done by setting
+the ```--mashup True``` flag and providing additional mashup image ```--mashup_image path_to_the_image```.
+
+The results are interesting, but -- despite the fact that the loss is decreasing and the algorithm is working as expected -- 
+often not exactly great looking. I handpicked some that look decent:
+
+| Style image                                          | Mashup image                                          | Mashup result                                             |
+|------------------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------|
+| ![The Wreck of a Transport Ship](images/other/shipwreck.jpg) | ![Ad Parnassum](images/other/parnassum.jpg)           | ![Result](results/square_mashup_shipwreck_parnassum.jpg)  |
+| ![Yellow-Red-Blue](images/style/abstraction.jpg)    |  ![The Starry Night](images/style/starrynight.jpg)              | ![Result](results/fei_mashup_starrynight_abstraction.jpg) |
+
 
 

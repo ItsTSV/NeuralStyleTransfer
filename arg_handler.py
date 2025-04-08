@@ -61,6 +61,32 @@ def handle_args():
         default=False,
     )
 
+    # Style mashup arguments
+    parser.add_argument(
+        "--mashup",
+        type=bool,
+        help="Whether to use style mashup or not",
+        default=False,
+    )
+    parser.add_argument(
+        "--mashup_path",
+        type=str,
+        help="Path to the second style image for mashup",
+        default="images/style/starrynight.jpg",
+    )
+    parser.add_argument(
+        "--w1",
+        type=float,
+        help="Weight for the first style image in mashup",
+        default=0.5,
+    )
+    parser.add_argument(
+        "--w2",
+        type=float,
+        help="Weight for the second style image in mashup",
+        default=0.5,
+    )
+
     # Parse, return
     args = parser.parse_args()
     return args
