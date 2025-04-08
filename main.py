@@ -20,10 +20,6 @@ content_tensor, style_tensor = load_preprocess_images(
 )
 assert_dimensions(content_tensor, style_tensor)
 
-# Load the VGG19 Feature Extractor
-feature_extractor = Vgg19FeatureExtractor(device)
-content_features, style_features = feature_extractor(content_tensor)
-
 # Run nst
 nst = NeuralStyleTransfer(content_tensor, style_tensor, device, args)
 generated_img = nst.train()
